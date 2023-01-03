@@ -21,7 +21,7 @@ const MyNotes = () => {
   };
   const fetchNotes = async () => {
     const { data } = await axios.get('/api/notes');
-    setNotes(data);
+    setNotes(data.default);
   };
   console.log(notes);
 
