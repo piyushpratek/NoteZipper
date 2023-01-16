@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import './LandingPage.css';
 
 const LandingPage = () => {
-  // function LandingPage({ history }) {
-  //   const userLogin = useSelector((state) => state.userLogin);
-  //   const { userInfo } = userLogin;
-
-  //   useEffect(() => {
-  //     if (userInfo) {
-  //       history.push('/mynotes');
-  //     }
-  //   }, [history, userInfo]);
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem('userInfo', JSON.stringify(data));
+  //   if (userInfo) {
+  //     history.push('/mynotes');
+  //   }
+  // }, [history,userInfo]);
 
   return (
     <div className='main'>
