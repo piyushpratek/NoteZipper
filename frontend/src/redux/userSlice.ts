@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { userInfoType } from '../types/UserType';
 
-const initialState = {
+export interface appType {
+  user: userInfoType | null;
+  users: userInfoType[];
+}
+const initialState: appType = {
   // isAuthenticated: false,
-  user: {},
+  user: null,
+  users:[]
   isLoading: false,
   error: { isError: false, errMsg: '' },
 };
