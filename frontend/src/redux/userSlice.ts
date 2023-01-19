@@ -1,56 +1,50 @@
-import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { userInfoType } from '../types/UserType';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface appType {
-  user: userInfoType | null;
-  users: userInfoType[];
-}
-const initialState: appType = {
-  // isAuthenticated: false,
-  user: null,
-  users:[]
-  isLoading: false,
-  error: { isError: false, errMsg: '' },
+type appType = {
+  loading?: boolean;
+  userInfo?: any;
+  userToken?: any;
+  error?: any;
+  success?: any;
 };
-export const loginUser = createAsyncThunk('loginuser', async (body) => {
-  const res = await fetch('', {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  return await res.json();
-});
+const InitialUserState: appType = {
+  loading: false,
+  userInfo: {}, // for user object
+  userToken: null, // for storing the JWT
+  error: null,
+  success: false, // for monitoring the registration process.
+};
 
-export const userSlice = createSlice({
-  name: 'user',
-  initialState,
+const userLoginSlice = createSlice({
+  name: 'auth',
+  initialState: InitialUserState,
   reducers: {
-    // clearError: (state) => {
-    // state.error.isError = false;
-    // state.error.errMsg = '';
-    // },
-  },
-  extraReducers: {
-    [loginUser.pending]: (state, action) => {
-      state.isLoading = true;
+    setLoginRequest: (state) => {
+      alert('set login request');
+      state.loading = true;
     },
-    [loginUser.fulfilled]: (state, { payload: { error, errMsg } }) => {
-      state.isLoading = false;
-      if (error) {
-        state.error = error;
-      } else {
-        state.errMsg = errMsg;
-      }
+    setLoginSuccess: (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.userInfo = action.payload;
     },
-    [loginUser.rejected]: (state, action) => {
-      state.isLoading = true;
+    setLoginFailed: (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    setUserLogout: (state, action: PayloadAction<any>) => {
+      state = {};
     },
   },
 });
 
-export default userSlice.reducer;
+export const {
+  setLoginRequest,
+  setLoginSuccess,
+  setLoginFailed,
+  setUserLogout,
+} = userLoginSlice.actions;
+
+export default userLoginSlice.reducer;
 
 //https://www.shawndsilva.com/blog/web-development/differences-between-redux-and-redux-toolkit-and-why-should-you-upgrade

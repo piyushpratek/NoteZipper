@@ -7,19 +7,25 @@ import LandingPage from './screens/LandingPage/LandingPage';
 import MyNotes from './screens/MyNotes/MyNotes';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
+import { useSelector } from 'react-redux';
 
-const App = () => (
-  <Router>
-    <Header />
-    <Routes>
-      <Route path='/' element={<LandingPage />} />
-      <Route path='/login' element={<LoginScreen />} />
-      <Route path='/register' element={<RegisterScreen />} />
+const App = () => {
+  const rx = useSelector((state) => state);
+  Object.assign(window, { rx });
+  Object.assign(window, { rxs: JSON.stringify(rx) });
+  return (
+    <Router>
+      <Header />
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/login' element={<LoginScreen />} />
+        <Route path='/register' element={<RegisterScreen />} />
 
-      <Route path='/mynotes' element={<MyNotes />} />
-    </Routes>
-    <Footer />
-  </Router>
-);
+        <Route path='/mynotes' element={<MyNotes />} />
+      </Routes>
+      <Footer />
+    </Router>
+  );
+};
 
 export default App;

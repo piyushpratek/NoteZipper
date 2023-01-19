@@ -6,16 +6,21 @@ import { Link } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage';
 import Loading from '../../components/Loading';
 import MainScreen from '../../components/MainScreen';
+import { setLoginRequest } from '../../redux/userSlice';
 import './LoginScreen.css';
+import { useSelector, useDispatch } from 'react-redux';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
+    alert('submit Handler');
+    dispatch(setLoginRequest());
 
     // console.log(email, password);
 
