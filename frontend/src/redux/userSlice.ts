@@ -7,13 +7,13 @@ type requestType = {
   error?: any;
   success?: any;
 };
-type userInitialState = {
+type userStateType = {
   login: requestType;
   register: requestType;
   update: requestType;
 };
 
-const InitialUserLoginState: userInitialState = {
+const InitialUserLoginState: userStateType = {
   login: {
     loading: false,
     error: null,
@@ -46,21 +46,23 @@ const UserInfoLoginSlice = createSlice({
       state.login.loading = false;
       state.login.error = action.payload;
     },
-    setUserLogout: (state, action: PayloadAction<any>) => {},
+    setUserLogout: (state) => {
+      state.login = {};
+    },
 
-    setAddUserLoading: (state, action: PayloadAction<any>) => {
+    setRegisterUserLoading: (state) => {
       state.register.loading = true;
     },
-    setAddUserSuccess: (state, action: PayloadAction<any>) => {
+    setRegisterUserSuccess: (state, action: PayloadAction<any>) => {
       state.register.loading = false;
       state.register.userInfo = action.payload;
     },
-    setAddUserFailed: (state, action: PayloadAction<any>) => {
+    setRegisterUserFailed: (state, action: PayloadAction<any>) => {
       state.register.loading = false;
       state.register.error = action.payload;
     },
 
-    setUpdateUserLoading: (state, action: PayloadAction<any>) => {
+    setUpdateUserLoading: (state) => {
       state.update.loading = true;
     },
     setUpdateUserSuccess: (state, action: PayloadAction<any>) => {
@@ -81,9 +83,9 @@ export const {
   setUserLoginSuccess,
   setUserLoginFailed,
   setUserLogout,
-  setAddUserLoading,
-  setAddUserSuccess,
-  setAddUserFailed,
+  setRegisterUserLoading,
+  setRegisterUserSuccess,
+  setRegisterUserFailed,
   setUpdateUserLoading,
   setUpdateUserSuccess,
   setUpdateUserFailed,

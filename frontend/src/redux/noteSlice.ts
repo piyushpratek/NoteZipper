@@ -6,18 +6,18 @@ type requestType = {
   error?: any;
   success?: any;
 };
-type notes = {
+type notesType = {
   notes?: any;
 };
 
-type noteInitialState = {
-  list: requestType & notes;
+type noteStateType = {
+  list: requestType & notesType;
   add: requestType;
   delete: requestType;
   update: requestType;
 };
 
-const InitialUserState: noteInitialState = {
+const InitialUserState: noteStateType = {
   list: {
     loading: false,
     notes: [],
@@ -57,10 +57,10 @@ const noteSlice = createSlice({
       state.list.error = action.payload;
     },
     //add
-    setAddNoteLoading: (state, action: PayloadAction<any>) => {
+    setAddNoteLoading: (state) => {
       state.add.loading = true;
     },
-    setAddNoteSuccess: (state, action: PayloadAction<any>) => {
+    setAddNoteSuccess: (state) => {
       state.add.loading = false;
       state.add.success = true;
     },
@@ -69,10 +69,10 @@ const noteSlice = createSlice({
       state.add.error = action.payload;
     },
     //delete
-    setDeleteNoteLoading: (state, action: PayloadAction<any>) => {
+    setDeleteNoteLoading: (state) => {
       state.delete.loading = true;
     },
-    setDeleteNoteSuccess: (state, action: PayloadAction<any>) => {
+    setDeleteNoteSuccess: (state) => {
       state.delete.loading = false;
       state.delete.success = true;
     },
@@ -82,10 +82,10 @@ const noteSlice = createSlice({
       state.delete.success = false;
     },
     //update
-    setUpdateNoteLoading: (state, action: PayloadAction<any>) => {
+    setUpdateNoteLoading: (state) => {
       state.update.loading = true;
     },
-    setUpdateNoteSuccess: (state, action: PayloadAction<any>) => {
+    setUpdateNoteSuccess: (state) => {
       state.update.loading = false;
       state.update.success = true;
     },
