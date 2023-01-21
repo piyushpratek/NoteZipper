@@ -1,19 +1,26 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactFragment,
-  ReactPortal,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../components/MainScreen';
 // import notes from '../../data/notes';
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../../components/Loading';
+import ErrorMessage from '../../components/ErrorMessage';
+
 import axios from 'axios';
+import { RootState } from '../../redux/store';
 
 const MyNotes = () => {
   const [notes, setNotes] = useState([]);
+
+  const userLogin = useSelector((state: RootState) => state.user.login);
+  const { userInfo } = userLogin;
+
+  const noteDelete = useSelector((state: RootState) => state.note.delete);
+
+  const noteCreate = useSelector((state: RootState) => state.note.add);
+
+  const noteUpdate = useSelector((state: RootState) => state.note.update);
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure?')) {
@@ -30,7 +37,7 @@ const MyNotes = () => {
   }, []);
 
   return (
-    <MainScreen title='Welcome Back Piyush Prateek'>
+    <MainScreen title={`Welcome Back ${userInfo && userInfo.name}`}>
       <Link to='createnote'>
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size='lg'>
           Create New Note
