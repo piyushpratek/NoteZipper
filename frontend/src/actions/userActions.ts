@@ -12,7 +12,25 @@ import {
   setUserLogout,
 } from '../redux/userSlice';
 
-export const login = (email, password) => async (dispatch) => {};
+export const login = (email, password) => async (dispatch) => {
+  try {
+    dispatch(setUserLoginLoading());
+
+    const { data } = await axios.post('/api/users/login', { email, password });
+
+    dispatch(setUserLoginSuccess(data));
+
+    localStorage.setItem('userInfo', JSON.stringify(data));
+  } catch (error: any) {
+    dispatch(
+      setUserLoginFailed(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+};
 
 export const logout = () => async (dispatch) => {
   localStorage.removeItem('userInfo');

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { userInfo } from 'os';
 
 type requestType = {
   loading?: boolean;
@@ -29,6 +30,14 @@ const InitialUserLoginState: userStateType = {
     error: null,
     success: false,
   },
+};
+
+//localstorage created to store the user login after refreshing
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo') as any)
+  : null;
+const initialState = {
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const UserInfoLoginSlice = createSlice({

@@ -1,9 +1,22 @@
 import React from 'react';
 import { Navbar, Container, Nav, NavDropdown, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../actions/userActions';
+import { RootState } from '../redux/store';
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state: RootState) => state.user.login);
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout() as any);
+    navigate('/');
+  };
   return (
     <Navbar bg='primary' expand='lg' variant='dark'>
       <Container>
@@ -32,12 +45,7 @@ const Header = () => {
                 <Link to='/myprofile'>My Profile</Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item
-                onClick={() => {
-                  localStorage.removeItem('userInfo');
-                  navigate('/');
-                }}
-              >
+              <NavDropdown.Item onClick={logoutHandler}>
                 LogOut
               </NavDropdown.Item>
             </NavDropdown>

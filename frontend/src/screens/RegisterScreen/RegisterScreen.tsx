@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainScreen from '../../components/MainScreen';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage';
 import Loading from '../../components/Loading';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { register } from '../../actions/userActions';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -18,40 +20,29 @@ const RegisterScreen = () => {
   const [confirmpassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [picMessage, setPicMessage] = useState<string | null>(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userRegister = useSelector((state: RootState) => state.user.register);
+  const { loading, error, userInfo } = userRegister;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/mynotes');
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-
     if (password !== confirmpassword) {
-      setMessage('Passwords Do Not Match');
+      setMessage('Password do not Match');
     } else {
-      setMessage(null);
-      try {
-        const config = {
-          headers: {
-            'Content-type': 'application/json',
-          },
-        };
-        setLoading(true);
-
-        const { data } = await axios.post(
-          'api/users',
-          { name, pic, email, password },
-          config
-        );
-        console.log(data);
-
-        setLoading(false);
-        localStorage.setItem('userInfo', JSON.stringify(data));
-      } catch (error: any) {
-        setError(error.response.data.message);
-      }
+      dispatch(register(name, email, password, pic) as any);
     }
-
-    console.log(`email: ${email}`);
   };
+
   const postDetails = (pics: any) => {
     if (!pics) {
       return setPicMessage('Please Select an Image');
