@@ -13,9 +13,13 @@ type userStateType = {
   register: requestType;
   update: requestType;
 };
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo') as any)
+  : null;
 
 const InitialUserLoginState: userStateType = {
   login: {
+    userInfo: userInfoFromStorage,
     loading: false,
     error: null,
     success: false,
@@ -30,14 +34,6 @@ const InitialUserLoginState: userStateType = {
     error: null,
     success: false,
   },
-};
-
-//localstorage created to store the user login after refreshing
-const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo') as any)
-  : null;
-const initialState = {
-  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const UserInfoLoginSlice = createSlice({
@@ -101,5 +97,3 @@ export const {
 } = UserInfoLoginSlice.actions;
 
 export default UserInfoLoginSlice.reducer;
-
-//https://www.shawndsilva.com/blog/web-development/differences-between-redux-and-redux-toolkit-and-why-should-you-upgrade

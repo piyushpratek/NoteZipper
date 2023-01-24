@@ -3,6 +3,7 @@ import notes from './data/notes';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
 import userRoutes from './routes/userRoutes';
+import noteRoutes from './routes/noteRoutes';
 import { errorHandler, notFound } from './middlewares/errorMiddleware';
 // import exportError from './middlewares/errorMiddleware';
 // import { notFound } from './middlewares/errorMiddleware';
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 // });
 
 app.use('/api/users', userRoutes);
+app.use('/api/notes', noteRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
