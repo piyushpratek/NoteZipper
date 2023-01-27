@@ -6,16 +6,16 @@ import {
   setDeleteNoteFailed,
   setDeleteNoteLoading,
   setDeleteNoteSuccess,
-  setNoteListFailed,
-  setNoteListLoading,
-  setNoteListSuccess,
+  setNotesListFailed,
+  setNotesListLoading,
+  setNotesListSuccess,
   setUpdateNoteLoading,
   setUpdateNoteSuccess,
 } from '../redux/noteSlice';
 
-export const listNotes = () => async (dispatch, getState) => {
+export const listNotes = () => async (dispatch: any, getState: any) => {
   try {
-    dispatch(setNoteListLoading());
+    dispatch(setNotesListLoading());
 
     const {
       userLogin: { userInfo },
@@ -29,13 +29,13 @@ export const listNotes = () => async (dispatch, getState) => {
 
     const { data } = await axios.get(`/api/notes`, config);
 
-    dispatch(setNoteListSuccess(data));
+    dispatch(setNotesListSuccess(data));
   } catch (error: any) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    dispatch(setNoteListFailed(message));
+    dispatch(setNotesListFailed(message));
   }
 };
 
@@ -125,6 +125,6 @@ export const updateNoteAction =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      dispatch(setNoteListFailed(message));
+      dispatch(setNotesListFailed(message));
     }
   };

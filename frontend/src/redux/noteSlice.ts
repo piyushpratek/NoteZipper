@@ -45,14 +45,14 @@ const noteSlice = createSlice({
   name: 'note',
   initialState: InitialUserState,
   reducers: {
-    setNoteListLoading: (state) => {
+    setNotesListLoading: (state) => {
       state.list.loading = true;
     },
-    setNoteListSuccess: (state, action: PayloadAction<any>) => {
+    setNotesListSuccess: (state, action: PayloadAction<any>) => {
       state.list.loading = false;
       state.list.notes = action.payload;
     },
-    setNoteListFailed: (state, action: PayloadAction<any>) => {
+    setNotesListFailed: (state, action: PayloadAction<any>) => {
       state.list.loading = false;
       state.list.error = action.payload;
     },
@@ -98,9 +98,9 @@ const noteSlice = createSlice({
 });
 
 export const {
-  setNoteListLoading,
-  setNoteListSuccess,
-  setNoteListFailed,
+  setNotesListLoading,
+  setNotesListSuccess,
+  setNotesListFailed,
 
   setAddNoteLoading,
   setAddNoteSuccess,

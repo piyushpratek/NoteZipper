@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MainScreen from '../../components/MainScreen';
 // import notes from '../../data/notes';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +9,12 @@ import ErrorMessage from '../../components/ErrorMessage';
 
 import axios from 'axios';
 import { RootState } from '../../redux/store';
+import { listNotes } from '../../actions/notesActions';
 
 const MyNotes = () => {
-  const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
+  const noteList = useSelector((state: RootState) => state.note.list);
+  const { loading, notes, error } = noteList;
 
   const userLogin = useSelector((state: RootState) => state.user.login);
   const { userInfo } = userLogin;
@@ -26,15 +29,16 @@ const MyNotes = () => {
     if (window.confirm('Are you sure?')) {
     }
   };
-  const fetchNotes = async () => {
-    const { data } = await axios.get('/api/notes');
-    setNotes(data.default);
-  };
+
   console.log(notes);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    dispatch(listNotes() as any);
+    if (!userInfo) {
+      navigate('/');
+    }
+  }, [dispatch]);
 
   return (
     <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
@@ -43,6 +47,8 @@ const MyNotes = () => {
           Create New Note
         </Button>
       </Link>
+      {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
+      {loading && <Loading />}
       <>
         {notes.map((note: any) => (
           <Accordion key={note._id}>
@@ -81,7 +87,10 @@ const MyNotes = () => {
                 <blockquote className='blockquote mb-0'>
                   <p>{note.content}</p>
                   <footer className='blockquote-footer'>
-                    Created on -date
+                    Created on{' '}
+                    <cite title='Source Title'>
+                      {note.createdAt.substring(0, 10)}
+                    </cite>
                   </footer>
                 </blockquote>
 
