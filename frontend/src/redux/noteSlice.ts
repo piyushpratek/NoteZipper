@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 type requestType = {
+  note?: any;
   loading?: boolean;
   error?: any;
   success?: any;
