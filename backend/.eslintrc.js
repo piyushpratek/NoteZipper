@@ -28,8 +28,12 @@ module.exports = {
   },
   rules: {
     'no-unused-vars': 'warn',
-    'comma-dangle': ['off'],
+    // 'comma-dangle': ['warn', 'always'],
     semi: 'off',
     '@typescript-eslint/no-extra-semi': 'off',
+    'comma-dangle': 'off',
+    '@typescript-eslint/comma-dangle': 'off',
+    'no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
   },
 }
