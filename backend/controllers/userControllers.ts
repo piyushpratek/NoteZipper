@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
       email: user.email,
       isAdmin: user.IsAdmin,
       pic: user.pic,
-      token: generateToken(user._id),
+      token: generateToken(user._id.toString()),
     })
   } catch (error) {
     res.status(400)
@@ -52,7 +52,7 @@ export const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.IsAdmin,
       pic: user.pic,
-      token: generateToken(user._id),
+      token: generateToken(user._id.toString()),
     })
   } else {
     res.status(400)
