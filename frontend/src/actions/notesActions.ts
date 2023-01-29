@@ -12,40 +12,50 @@ import {
   setUpdateNoteLoading,
   setUpdateNoteSuccess,
 } from '../redux/noteSlice';
+import { getStateType, RootState } from '../redux/store';
 
-export const listNotes = () => async (dispatch: any, getState: any) => {
-  try {
-    dispatch(setNotesListLoading());
+export const listNotes =
+  () => async (dispatch: any, getState: getStateType) => {
+    try {
+      dispatch(setNotesListLoading());
+      const state = getState();
+      console.log('got state?', state);
+      console.log('keys of state?', Object.keys(state));
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        user: {
+          login: { userInfo },
+        },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      // const userInfo=state.user.login.userInfo
 
-    const { data } = await axios.get(`/api/notes`, config);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/notes`, config);
 
-    dispatch(setNotesListSuccess(data));
-  } catch (error: any) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch(setNotesListFailed(message));
-  }
-};
+      dispatch(setNotesListSuccess(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(setNotesListFailed(message));
+    }
+  };
 
 export const createNoteAction =
-  (title, content, category) => async (dispatch, getState) => {
+  (title, content, category) => async (dispatch, getState: getStateType) => {
     try {
       dispatch(setAddNoteLoading());
 
       const {
-        userLogin: { userInfo },
+        user: {
+          login: { userInfo },
+        },
       } = getState();
 
       const config = {
@@ -71,39 +81,45 @@ export const createNoteAction =
     }
   };
 
-export const deleteNoteAction = (id) => async (dispatch, getState) => {
-  try {
-    dispatch(setDeleteNoteLoading());
+export const deleteNoteAction =
+  (id: any) => async (dispatch: any, getState: getStateType) => {
+    try {
+      dispatch(setDeleteNoteLoading());
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        user: {
+          login: { userInfo },
+        },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.delete(`/api/notes/${id}`, config);
+      const { data } = await axios.delete(`/api/notes/${id}`, config);
 
-    dispatch(setDeleteNoteSuccess(data));
-  } catch (error: any) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch(setDeleteNoteFailed(message));
-  }
-};
+      dispatch(setDeleteNoteSuccess(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(setDeleteNoteFailed(message));
+    }
+  };
 
 export const updateNoteAction =
-  (id, title, content, category) => async (dispatch, getState) => {
+  (id, title, content, category) =>
+  async (dispatch, getState: getStateType) => {
     try {
       dispatch(setUpdateNoteLoading());
 
       const {
-        userLogin: { userInfo },
+        user: {
+          login: { userInfo },
+        },
       } = getState();
 
       const config = {
