@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/userModel'
 import asyncHandler from 'express-async-handler'
 import type { RequestAuth, UserType } from '../types'
+import { JWT_SECRET } from '../config'
 
 interface JwtPayload {
   id: string
@@ -15,10 +16,7 @@ export const protect = asyncHandler(async (req: RequestAuth, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1]
       // decodes token id
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET ?? ''
-      ) as JwtPayload
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
 
       req.user = (await User.findById(decoded.id).select(
         '-password'

@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import { useSelector } from 'react-redux';
 import CreateNote from './screens/CreateNote/CreateNote';
+import SingleNote from './screens/SingleNote';
 
 const App = () => {
   const rx = useSelector((state) => state);
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/register' element={<RegisterScreen />} />
         <Route path='/createnote' element={<CreateNote />} />
+        {/* <Route path='/note/:id' element={<SingleNote />} /> */}
 
         <Route path='/mynotes' element={<MyNotes />} />
       </Routes>

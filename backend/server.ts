@@ -1,5 +1,4 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import connectDB from './config/db'
 import userRoutes from './routes/userRoutes'
 import noteRoutes from './routes/noteRoutes'
@@ -9,7 +8,6 @@ import { errorHandler, notFound } from './middlewares/errorMiddleware'
 // import errorHandler from './middlewares/errorMiddleware';
 
 const app = express()
-dotenv.config()
 void connectDB()
 app.use(express.json())
 

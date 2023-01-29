@@ -1,14 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+import { MONGO_URI } from './config'
 
-const connectDB = async () => {
+const connectDB = async (): Promise<void> => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI!);
-    console.log(`Mongo Db Connected: ${conn.connection.host}`);
+    mongoose.set('strictQuery', true)
+    const conn = await mongoose.connect(MONGO_URI)
+    console.log(`Mongo Db Connected: ${conn.connection.host}`)
   } catch (error) {
-    console.log(`Error: ${error.message}`);
-    process.exit();
+    console.log(`Error: ${(error as Error).message}`)
+    process.exit()
   }
-};
+}
 
-export default connectDB;
-// module.exports = connectDB;
+export default connectDB

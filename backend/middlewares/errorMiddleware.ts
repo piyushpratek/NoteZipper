@@ -4,6 +4,7 @@ import type {
   NextFunction,
   ErrorRequestHandler,
 } from 'express'
+import { NODE_ENV } from '../config'
 export const notFound = (
   req: Request,
   res: Response,
@@ -24,6 +25,6 @@ export const errorHandler: ErrorRequestHandler = (
   res.status(statusCode)
   res.json({
     message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    stack: NODE_ENV === 'production' ? null : err.stack,
   })
 }

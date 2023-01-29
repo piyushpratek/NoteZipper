@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getStateType, RootState } from '../redux/store';
 import {
   setRegisterUserFailed,
   setRegisterUserLoading,
@@ -69,35 +70,38 @@ export const register = (name, email, password, pic) => async (dispatch) => {
   }
 };
 
-export const updateProfile = (user) => async (dispatch, getState) => {
-  try {
-    dispatch(setUpdateUserLoading());
+export const updateProfile =
+  (user) => async (dispatch, getState: getStateType) => {
+    try {
+      dispatch(setUpdateUserLoading());
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        user: {
+          login: { userInfo },
+        },
+      } = getState();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.post('/api/users/profile', user, config);
+      const { data } = await axios.post('/api/users/profile', user, config);
 
-    dispatch(setUpdateUserSuccess(data));
+      dispatch(setUpdateUserSuccess(data));
 
-    dispatch(setUserLoginSuccess(data));
+      dispatch(setUserLoginSuccess(data));
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
-  } catch (error: any) {
-    dispatch(
-      setUpdateUserFailed(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    );
-  }
-};
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error: any) {
+      dispatch(
+        setUpdateUserFailed(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };

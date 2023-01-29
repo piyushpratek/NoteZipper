@@ -19,9 +19,12 @@ const MyNotes = () => {
   const userLogin = useSelector((state: RootState) => state.user.login);
   const { userInfo } = userLogin;
 
+  const noteCreate = useSelector((state: RootState) => state.note.add);
+  const { success:successCreate } = noteCreate;
+
   const noteDelete = useSelector((state: RootState) => state.note.delete);
 
-  const noteCreate = useSelector((state: RootState) => state.note.add);
+  // const noteCreate = useSelector((state: RootState) => state.note.add);
 
   const noteUpdate = useSelector((state: RootState) => state.note.update);
 
@@ -38,7 +41,7 @@ const MyNotes = () => {
     if (!userInfo) {
       navigate('/');
     }
-  }, [dispatch]);
+  }, [dispatch,successCreate,navigate,userInfo]);
 
   return (
     <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
