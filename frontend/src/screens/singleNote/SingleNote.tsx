@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from "react";
-import MainScreen from "../components/MainScreen";
-import axios from "axios";
-import { Button, Card, Form } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteNoteAction, updateNoteAction } from "../actions/notesActions"
-import ErrorMessage from "../components/ErrorMessage"
-import Loading from "../components/Loading"
-import ReactMarkdown from "react-markdown";
-import { RootState } from "../redux/store";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import MainScreen from '../../components/MainScreen';
+import axios from 'axios';
+import { Button, Card, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteNoteAction, updateNoteAction } from '../../actions/notesActions';
+import ErrorMessage from '../../components/ErrorMessage';
+import Loading from '../../components/Loading';
+import ReactMarkdown from 'react-markdown';
+import { RootState } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 
-function SingleNote({ match, history }) {
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
-  const [category, setCategory] = useState();
-  const [date, setDate] = useState("");
+function SingleNote({ match }) {
+  const [title, setTitle] = useState<string>();
+  const [content, setContent] = useState<string>();
+  const [category, setCategory] = useState<string>();
+  const [date, setDate] = useState('');
 
   const dispatch = useDispatch();
 
-  const noteUpdate = useSelector((state:RootState) => state.note.update);
+  const noteUpdate = useSelector((state: RootState) => state.note.update);
   const { loading, error } = noteUpdate;
 
-  const noteDelete = useSelector((state:RootState) => state.note.delete);
+  const noteDelete = useSelector((state: RootState) => state.note.delete);
   const { loading: loadingDelete, error: errorDelete } = noteDelete;
-const navigate=useNavigate()
+
+  const navigate = useNavigate();
   const deleteHandler = (id) => {
-    if (window.confirm("Are you sure?")) {
-      dispatch(deleteNoteAction(id));
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteNoteAction(id) as any);
     }
-    navigate("/mynotes");
+    navigate('/mynotes');
   };
 
   useEffect(() => {
@@ -45,46 +46,48 @@ const navigate=useNavigate()
   }, [match.params.id, date]);
 
   const resetHandler = () => {
-    setTitle("");
-    setCategory("");
-    setContent("");
+    setTitle('');
+    setCategory('');
+    setContent('');
   };
 
-  const updateHandler = (e: { preventDefault: () => void; }) => {
+  const updateHandler = (e) => {
     e.preventDefault();
-    dispatch(updateNoteAction(match.params.id, title, content, category));
+    dispatch(
+      updateNoteAction(match.params.id, title, content, category) as any
+    );
     if (!title || !content || !category) return;
 
     resetHandler();
-    navigate("/mynotes");
+    navigate('/mynotes');
   };
 
   return (
-    <MainScreen title="Edit Note">
+    <MainScreen title='Edit Note'>
       <Card>
         <Card.Header>Edit your Note</Card.Header>
         <Card.Body>
           <Form onSubmit={updateHandler}>
             {loadingDelete && <Loading />}
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
             {errorDelete && (
-              <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+              <ErrorMessage variant='danger'>{errorDelete}</ErrorMessage>
             )}
-            <Form.Group controlId="title">
+            <Form.Group controlId='title'>
               <Form.Label>Title</Form.Label>
               <Form.Control
-                type="title"
-                placeholder="Enter the title"
+                type='title'
+                placeholder='Enter the title'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group controlId="content">
+            <Form.Group controlId='content'>
               <Form.Label>Content</Form.Label>
               <Form.Control
-                as="textarea"
-                placeholder="Enter the content"
+                as='textarea'
+                placeholder='Enter the content'
                 rows={4}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -99,22 +102,22 @@ const navigate=useNavigate()
               </Card>
             )}
 
-            <Form.Group controlId="content">
+            <Form.Group controlId='content'>
               <Form.Label>Category</Form.Label>
               <Form.Control
-                type="content"
-                placeholder="Enter the Category"
+                type='content'
+                placeholder='Enter the Category'
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
             </Form.Group>
             {loading && <Loading size={50} />}
-            <Button variant="primary" type="submit">
+            <Button variant='primary' type='submit'>
               Update Note
             </Button>
             <Button
-              className="mx-2"
-              variant="danger"
+              className='mx-2'
+              variant='danger'
               onClick={() => deleteHandler(match.params.id)}
             >
               Delete Note
@@ -122,7 +125,7 @@ const navigate=useNavigate()
           </Form>
         </Card.Body>
 
-        <Card.Footer className="text-muted">
+        <Card.Footer className='text-muted'>
           Updated on - {date.substring(0, 10)}
         </Card.Footer>
       </Card>
