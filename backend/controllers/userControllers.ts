@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel'
 import { generateToken } from '../utils/generateToken'
 import type { Request, Response } from 'express'
+import type { CustomRequest, RequestAuth } from '../types'
 
 interface UserType {
   name: string
@@ -59,5 +60,38 @@ export const authUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid Email or Password! ')
   }
 })
+export const updateUserProfile = asyncHandler(
+  async (req: CustomRequest<UserType>, res: Response) => {
+    const user = await User.findById({ user: req?.user?._id })
+    if (user != null) {
+      // We update the properties of `user` only if they are defined.
+      if (typeof req.body.name !== 'undefined') {
+        user.name = req.body.name
+      }
+      if (typeof req.body.email !== 'undefined') {
+        user.email = req.body.email
+      }
+      if (typeof req.body.pic !== 'undefined') {
+        user.pic = req.body.pic
+      }
+      if (typeof req.body.password !== 'undefined') {
+        user.password = req.body.password
+      }
+
+      // Finally we save the updated user to database
+      const updatedUser = await user.save()
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        token: generateToken(updatedUser._id.toString()),
+      })
+    } else {
+      res.status(404)
+      throw new Error('User not Found')
+    }
+  }
+)
 
 export default registerUser

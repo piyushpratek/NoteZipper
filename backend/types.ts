@@ -8,3 +8,8 @@ export interface RequestAuth extends Request<Types.ObjectId> {
 export interface UserType {
   _id?: string
 }
+
+export interface CustomRequest<T> extends Request<Types.ObjectId> {
+  body: T
+  user?: UserType
+}
