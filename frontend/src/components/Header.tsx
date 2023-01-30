@@ -41,7 +41,7 @@ const Header = ({ setSearch }) => {
               <Link to='/mynotes'>My Notes</Link>
             </Nav.Link>
 
-            <NavDropdown title='Piyush Prateek' id='basic-nav-dropdown'>
+            <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
               <NavDropdown.Item>
                 <Link to='/myprofile'>My Profile</Link>
               </NavDropdown.Item>

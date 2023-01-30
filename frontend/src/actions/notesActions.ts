@@ -19,8 +19,6 @@ export const listNotes =
     try {
       dispatch(setNotesListLoading());
       const state = getState();
-      console.log('got state?', state);
-      console.log('keys of state?', Object.keys(state));
 
       const {
         user: {

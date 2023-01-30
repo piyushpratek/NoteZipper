@@ -38,7 +38,6 @@ const MyNotes = ({ search }) => {
     }
   };
 
-  console.log(notes);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +54,14 @@ const MyNotes = ({ search }) => {
     successDelete,
   ]);
 
+  const filteredNotes =
+    notes &&
+    notes
+      ?.filter((filteredNote) =>
+        filteredNote?.title?.toLowerCase()?.includes(search?.toLowerCase())
+      )
+      ?.reverse();
+
   return (
     <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
       <Link to='/createnote'>
@@ -69,61 +76,39 @@ const MyNotes = ({ search }) => {
       {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
       {loading && <Loading />}
       <>
-        {notes
-          .reverse()
-          .filter((filteredNote) =>
-            filteredNote.title.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((note: any) => (
-            <Accordion key={note._id}>
-              {/* <Card style={{ margin: 10 }} key={note._id}>
-            <Accordion.Item eventKey="0"> */}
-
-              <Accordion.Item eventKey='0'>
-                <Accordion.Header>
-                  {/* <Card.Header style={{ display: 'flex' }}>
-            <span style={{
-              color: 'black',
-              textDecoration: 'none',
-              flex: 1,
-              cursor: 'pointer',
-              alignSelf: 'center',
-              fontSize: 18,
-                    }}> */}
-                  <span>{note.title}</span>
-                  <div>
-                    <Button href={`/note/${note._id}`}>Edit</Button>
-                    <Button
-                      variant='danger'
-                      className='mx-2'
-                      onClick={() => deleteHandler(note._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                  {/* </Card.Header> */}
-                </Accordion.Header>
-                <Accordion.Body>
-                  {/* <Card.Body> */}
-                  <h4>
-                    <Badge bg='success'>Category - {note.category}</Badge>
-                  </h4>
-                  <blockquote className='blockquote mb-0'>
-                    <p>{note.content}</p>
-                    <footer className='blockquote-footer'>
-                      Created on{' '}
-                      <cite title='Source Title'>
-                        {note.createdAt.substring(0, 10)}
-                      </cite>
-                    </footer>
-                  </blockquote>
-
-                  {/* </Card.Body> */}
-                </Accordion.Body>
-              </Accordion.Item>
-              {/* // </Card> */}
-            </Accordion>
-          ))}
+        {filteredNotes?.map((note: any) => (
+          <Accordion key={note._id}>
+            <Accordion.Item eventKey='0'>
+              <Accordion.Header>
+                <span>{note.title}</span>
+                <div>
+                  <Button href={`/note/${note._id}`}>Edit</Button>
+                  <Button
+                    variant='danger'
+                    className='mx-2'
+                    onClick={() => deleteHandler(note._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Accordion.Header>
+              <Accordion.Body>
+                <h4>
+                  <Badge bg='success'>Category - {note.category}</Badge>
+                </h4>
+                <blockquote className='blockquote mb-0'>
+                  <p>{note.content}</p>
+                  <footer className='blockquote-footer'>
+                    Created on{' '}
+                    <cite title='Source Title'>
+                      {note.createdAt.substring(0, 10)}
+                    </cite>
+                  </footer>
+                </blockquote>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ))}
       </>
     </MainScreen>
   );
