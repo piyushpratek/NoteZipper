@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel'
 import { generateToken } from '../utils/generateToken'
 import type { Request, Response } from 'express'
-import type { CustomRequest, RequestAuth } from '../types'
+import type { CustomRequest } from '../types'
 
 interface UserType {
   name: string
