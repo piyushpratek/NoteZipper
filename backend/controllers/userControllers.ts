@@ -62,7 +62,15 @@ export const authUser = asyncHandler(async (req, res) => {
 })
 export const updateUserProfile = asyncHandler(
   async (req: CustomRequest<UserType>, res: Response) => {
-    const user = await User.findById({ user: req?.user?._id })
+    console.log('request user?', req?.user?._id)
+
+    //  way one
+    // const user = await User.findById(req?.user?._id)
+
+    //  way two
+    const user = await User.findOne({ _id: req?.user?._id })
+
+    console.log('user?', user)
     if (user != null) {
       // We update the properties of `user` only if they are defined.
       if (typeof req.body.name !== 'undefined') {

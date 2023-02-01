@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import MainScreen from '../../components/MainScreen';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,9 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { RootState } from '../../redux/store';
 import './profileScreen.css';
 import { UserInfo } from 'os';
+import { useNavigate } from 'react-router-dom';
 
-const ProfileScreen = ({ location, history }) => {
+const ProfileScreen = ({ location }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [pic, setPic] = useState<string | undefined>();
@@ -18,7 +19,7 @@ const ProfileScreen = ({ location, history }) => {
   const [picMessage, setPicMessage] = useState<null | undefined | string>();
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const userLogin = useSelector((state: RootState) => state.user.login);
   const { userInfo } = userLogin;
 
@@ -27,29 +28,33 @@ const ProfileScreen = ({ location, history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/');
+      navigate('/');
     } else {
       setName(userInfo.name);
       setEmail(userInfo.email);
       setPic(userInfo.pic);
     }
-  }, [history, userInfo]);
+  }, [navigate, userInfo]);
 
-  const postDetails = (pics) => {
+  const postDetails = (pics: any) => {
+    if (!pics) {
+      return setPicMessage('Please Select an Image');
+    }
     setPicMessage(null);
     if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
       const data = new FormData();
       data.append('file', pics);
       data.append('upload_preset', 'notezipper');
-      data.append('cloud_name', 'piyushproj');
-      fetch('https://api.cloudinary.com/v1_1/piyushproj/image/upload', {
+      data.append('cloud_name', 'dd22mrihi');
+      fetch('https://api.cloudinary.com/v1_1/dd22mrihi/image/upload', {
         method: 'post',
         body: data,
       })
-        .then((res) => res.json())
+        .then((res: any) => res.json())
         .then((data) => {
+          console.log(data);
+
           setPic(data.url.toString());
-          console.log(pic);
         })
         .catch((err) => {
           console.log(err);
@@ -61,9 +66,12 @@ const ProfileScreen = ({ location, history }) => {
 
   const submitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    dispatch(updateProfile({ name, email, password, pic }) as any);
+    if (password === confirmPassword)
+      dispatch(updateProfile({ name, email, password, pic }) as any);
   };
+  const handleChange =
+    (e: ChangeEvent<HTMLInputElement>) => (e: { target: { files: any[] } }) =>
+      postDetails(e.target.files[0]);
 
   return (
     <MainScreen title='EDIT PROFILE'>
@@ -120,18 +128,17 @@ const ProfileScreen = ({ location, history }) => {
               <div>
                 <Form.Group controlId='pic'>
                   <Form.Label>Change Profile Picture</Form.Label>
-
-                  <input
-                    className='form-control'
-                    type='file'
-                    id='custom-file'
-                    // label='Upload Profile Picture'
-                    // type='image/png'
-                    // custom
-                    onChange={(e: { target: { files: any[] } }) =>
-                      postDetails(e.target.files[0])
-                    }
-                  ></input>
+                  <div className='mb-3'>
+                    <input
+                      className='form-control'
+                      type='file'
+                      id='custom-file'
+                      // label='Upload Profile Picture'
+                      // type='image/png'
+                      // custom
+                      onChange={handleChange}
+                    ></input>
+                  </div>
                 </Form.Group>
               </div>
               <Button type='submit' variant='primary'>
