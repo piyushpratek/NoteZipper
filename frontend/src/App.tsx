@@ -25,7 +25,7 @@ const App = () => {
         <Route path='/login' element={<LoginScreen />} />
         <Route
           path='/profile'
-          element={<ProfileScreen location={undefined} history={undefined} />}
+          element={<ProfileScreen location={undefined} />}
         />
         <Route path='/register' element={<RegisterScreen />} />
         <Route path='/createnote' element={<CreateNote />} />
