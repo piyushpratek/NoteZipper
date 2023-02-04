@@ -1,0 +1,20 @@
+import mongoose from 'mongoose'
+import { MONGO_URI } from './config'
+import logger from './logger'
+
+export default {
+  mongoose,
+  connect: async () => {
+    try {
+      mongoose.set('strictQuery', true)
+      const conn = await mongoose.connect(MONGO_URI)
+      logger.success(`Mongo Db Connected: ${conn.connection.host}`)
+    } catch (error) {
+      logger.error(`Error: ${(error as Error).message}`)
+      process.exit()
+    }
+  },
+  disconnect: async () => {
+    await mongoose.disconnect()
+  },
+}
