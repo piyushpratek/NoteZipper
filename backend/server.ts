@@ -3,6 +3,7 @@ import connectDB from './config/db'
 import userRoutes from './routes/userRoutes'
 import noteRoutes from './routes/noteRoutes'
 import { errorHandler, notFound } from './middlewares/errorMiddleware'
+import logger from './config/logger'
 // import exportError from './middlewares/errorMiddleware';
 // import { notFound } from './middlewares/errorMiddleware';
 // import errorHandler from './middlewares/errorMiddleware';
@@ -36,5 +37,5 @@ app.use(errorHandler)
 
 const PORT = Number(process.env.PORT) ?? 5000 //  nullish operator ?? is better than or operator ||
 app.listen(PORT, () => {
-  console.log(`server started on port ${PORT} `)
+  logger.success(`server started on port ${PORT} `)
 })
