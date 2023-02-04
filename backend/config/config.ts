@@ -2,15 +2,14 @@ import dotenv from 'dotenv'
 import logger from './logger'
 
 let envPath = ''
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   envPath = '.env'
+}
+if (process.env.NODE_ENV === 'development') {
+  envPath = '.env.development'
 }
 if (process.env.NODE_ENV === 'test') {
   envPath = '.env.test'
-}
-if (process.env.NODE_ENV === 'production') {
-  logger.error('TODO: Please setup production database in future.')
-  throw new Error()
 }
 if (envPath === '') {
   logger.error('Please use a either a valid value of NODE_ENV variable.')

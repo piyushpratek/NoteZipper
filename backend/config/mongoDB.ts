@@ -4,7 +4,7 @@ import logger from './logger'
 
 export default {
   mongoose,
-  connect: async () => {
+  connect: async (): Promise<void> => {
     try {
       mongoose.set('strictQuery', true)
       const conn = await mongoose.connect(MONGO_URI)

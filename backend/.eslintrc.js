@@ -34,6 +34,10 @@ module.exports = {
     'comma-dangle': 'off',
     '@typescript-eslint/comma-dangle': 'off',
     'no-unsafe-assignment': 'off',
+    'no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
   },
 }
