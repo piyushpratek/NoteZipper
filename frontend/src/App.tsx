@@ -29,7 +29,7 @@ const App = () => {
         />
         <Route path='/register' element={<RegisterScreen />} />
         <Route path='/createnote' element={<CreateNote />} />
-        <Route path='/note/:id' element={<SingleNote match={undefined} />} />
+        <Route path='/note/:id' element={<SingleNote />} />
 
         <Route path='/mynotes' element={<MyNotes search={search} />} />
       </Routes>
