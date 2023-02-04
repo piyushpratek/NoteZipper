@@ -9,8 +9,6 @@ import Loading from '../../components/Loading';
 import ReactMarkdown from 'react-markdown';
 import { RootState } from '../../redux/store';
 import { useNavigate, useParams } from 'react-router-dom';
-import { match } from 'assert';
-import { log } from 'console';
 
 function SingleNote() {
   const [title, setTitle] = useState<string>();
