@@ -1,6 +1,23 @@
 import dotenv from 'dotenv'
+import logger from './logger'
 
-dotenv.config()
+let envPath = ''
+if (process.env.NODE_ENV === 'development') {
+  envPath = '.env'
+}
+if (process.env.NODE_ENV === 'test') {
+  envPath = '.env.test'
+}
+if (process.env.NODE_ENV === 'production') {
+  logger.error('TODO: Please setup production database in future.')
+  throw new Error()
+}
+if (envPath === '') {
+  logger.error('Please use a either a valid value of NODE_ENV variable.')
+  throw new Error()
+}
+
+dotenv.config({ path: envPath })
 
 if (typeof process.env.MONGO_URI === 'undefined') {
   throw new Error('Please define MONGO_URI in your .env file.')
