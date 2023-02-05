@@ -18,7 +18,7 @@ describe('users', () => {
     console.log('sampleUser.password?', sampleUser.password)
 
     // Register a user
-    const kk = await request(app).post('/api/users').send({...sampleUser, password: samplePassword})
+    await request(app).post('/api/users').send({...sampleUser, password: samplePassword})
   })
 
   afterAll(async () => {
