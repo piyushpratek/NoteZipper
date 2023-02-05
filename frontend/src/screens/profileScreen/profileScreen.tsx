@@ -9,6 +9,7 @@ import { RootState } from '../../redux/store';
 import './profileScreen.css';
 import { UserInfo } from 'os';
 import { useNavigate } from 'react-router-dom';
+import { log } from 'console';
 
 const ProfileScreen = ({ location }) => {
   const [name, setName] = useState('');
@@ -52,8 +53,6 @@ const ProfileScreen = ({ location }) => {
       })
         .then((res: any) => res.json())
         .then((data) => {
-          console.log(data);
-
           setPic(data.url.toString());
         })
         .catch((err) => {
@@ -69,9 +68,10 @@ const ProfileScreen = ({ location }) => {
     if (password === confirmPassword)
       dispatch(updateProfile({ name, email, password, pic }) as any);
   };
-  const handleChange =
-    (e: ChangeEvent<HTMLInputElement>) => (e: { target: { files: any[] } }) =>
-      postDetails(e.target.files[0]);
+
+  const handleChange = (e) => {
+    postDetails(e.target.files[0]);
+  };
 
   return (
     <MainScreen title='EDIT PROFILE'>
@@ -128,17 +128,15 @@ const ProfileScreen = ({ location }) => {
               <div>
                 <Form.Group controlId='pic'>
                   <Form.Label>Change Profile Picture</Form.Label>
-                  <div className='mb-3'>
-                    <input
-                      className='form-control'
-                      type='file'
-                      id='custom-file'
-                      // label='Upload Profile Picture'
-                      // type='image/png'
-                      // custom
-                      onChange={handleChange}
-                    ></input>
-                  </div>
+                  <Form.Control
+                    className='form-control'
+                    type='file'
+                    id='custom-file'
+                    // label='Upload Profile Picture'
+                    // type='image/png'
+                    // custom
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </div>
               <Button type='submit' variant='primary'>
