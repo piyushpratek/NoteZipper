@@ -33,7 +33,7 @@ module.exports = {
         '@typescript-eslint/no-unsafe-call': 'off',
         '@typescript-eslint/indent': 'off',
         '@typescript-eslint/consistent-type-imports': 'off',
-        '@typescript-eslint/require-await': 'off'
+        '@typescript-eslint/require-await': 'off',
       },
     },
   ],
@@ -45,6 +45,10 @@ module.exports = {
     semi: 'off',
     'no-unused-vars': 'warn',
     'comma-dangle': 'off',
-    'jest/expect-expect': ['error', { assertFunctionNames: ['expect', 'request.**.expect'] }],
+    'jest/expect-expect': [
+      'error',
+      { assertFunctionNames: ['expect', 'request.**.expect'] },
+    ],
+    'no-console': 'warn',
   },
 }

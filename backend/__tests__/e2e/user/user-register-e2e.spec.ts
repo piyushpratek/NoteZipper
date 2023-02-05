@@ -19,12 +19,12 @@ describe('users', () => {
     await mongoDB.disconnect()
   })
 
-  test.only('successful registration', async () => {
+  test('successful registration', async () => {
     const response = await request(app).post('/api/users').send(sampleUser)
     expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({
-      _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
       // _id: expect.any(String),
+      _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
       email: sampleUser.email,
       isAdmin: sampleUser.IsAdmin,
       name: sampleUser.name,

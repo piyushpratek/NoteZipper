@@ -15,10 +15,11 @@ describe('users', () => {
     await clearDatabase(mongoose.connection)
     samplePassword = 'mysecret'
     sampleUser = userFactory.build()
-    console.log('sampleUser.password?', sampleUser.password)
 
     // Register a user
-    await request(app).post('/api/users').send({...sampleUser, password: samplePassword})
+    await request(app)
+      .post('/api/users')
+      .send({ ...sampleUser, password: samplePassword })
   })
 
   afterAll(async () => {
@@ -31,6 +32,13 @@ describe('users', () => {
       .send({ email: sampleUser.email, password: samplePassword })
 
     expect(response.statusCode).toBe(200)
-    // expect(response.body).toEqual(1)
+    expect(response.body).toEqual({
+      _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
+      email: sampleUser.email,
+      isAdmin: sampleUser.IsAdmin,
+      name: sampleUser.name,
+      pic: sampleUser.pic,
+      token: expect.any(String),
+    })
   })
 })
