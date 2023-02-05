@@ -14,14 +14,11 @@ describe('users', () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
     samplePassword = 'mysecret'
-    sampleUser = userFactory.build(
-      {},
-      { transient: { plainPassword: samplePassword } }
-    )
+    sampleUser = userFactory.build()
     console.log('sampleUser.password?', sampleUser.password)
 
     // Register a user
-    await request(app).post('/api/users').send(sampleUser)
+    const kk = await request(app).post('/api/users').send({...sampleUser, password: samplePassword})
   })
 
   afterAll(async () => {
@@ -33,7 +30,7 @@ describe('users', () => {
       .post('/api/users/login')
       .send({ email: sampleUser.email, password: samplePassword })
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(200)
     expect(response.body).toEqual(1)
   })
 })
