@@ -1,8 +1,8 @@
-import app from '../app'
+import app from '../../../app'
 import request from 'supertest'
-import mongoDB from '../config/mongoDB'
+import mongoDB from '../../../config/mongoDB'
 import mongoose from 'mongoose'
-import { clearDatabase } from '../utils/mongo-helpers'
+import { clearDatabase } from '../../../utils/mongo-helpers'
 
 describe('Server health checkup', () => {
   beforeAll(async () => {

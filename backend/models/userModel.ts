@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-export interface UserDoc extends Document {
+export interface UserType {
+  _id: string
   name: string
   email: string
   password: string
@@ -10,6 +11,8 @@ export interface UserDoc extends Document {
   // default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
   matchPassword: (pw: string) => Promise<boolean>
 }
+
+export type UserDoc = UserType & Document
 
 const userSchema = new mongoose.Schema<UserDoc>(
   {
@@ -49,12 +52,17 @@ userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password as string)
 }
 
+export const hashPassword = (plainPassword: string): string => {
+  const salt = bcrypt.genSaltSync(10) // more higher the value more secure the password
+  return bcrypt.hashSync(plainPassword, salt)
+}
+
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next()
   }
-  const salt = await bcrypt.genSalt(10) // more higher the value more secure the password
-  this.password = await bcrypt.hash(this.password, salt)
+
+  this.password = hashPassword(this.password)
 })
 
 const User = mongoose.model<UserDoc>('User', userSchema)

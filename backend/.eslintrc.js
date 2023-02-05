@@ -15,10 +15,25 @@ module.exports = {
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:jest/recommended',
+        'plugin:jest/style',
       ],
 
       parserOptions: {
         project: ['./tsconfig.json'], // Specify it only for TypeScript files
+      },
+      rules: {
+        '@typescript-eslint/no-extra-semi': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/comma-dangle': 'off',
+        '@typescript-eslint/space-before-function-paren': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/indent': 'off',
+        '@typescript-eslint/consistent-type-imports': 'off',
+        '@typescript-eslint/require-await': 'off'
       },
     },
   ],
@@ -27,17 +42,9 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-unused-vars': 'warn',
-    // 'comma-dangle': ['warn', 'always'],
     semi: 'off',
-    '@typescript-eslint/no-extra-semi': 'off',
+    'no-unused-vars': 'warn',
     'comma-dangle': 'off',
-    '@typescript-eslint/comma-dangle': 'off',
-    'no-unsafe-assignment': 'off',
-    'no-explicit-any': 'off',
-    '@typescript-eslint/no-unsafe-assignment': 'off',
-    '@typescript-eslint/space-before-function-paren': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unsafe-argument': 'off',
+    'jest/expect-expect': ['error', { assertFunctionNames: ['expect', 'request.**.expect'] }],
   },
 }
