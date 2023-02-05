@@ -31,3 +31,9 @@ alias s='npm start'
 alias d='npm run start:dev'
 alias t='npm test'
 ```
+
+## Dependencies install
+
+```
+npm i ts-jest eslint-plugin-jest fishery
+```

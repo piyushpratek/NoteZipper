@@ -9,27 +9,31 @@ import { userFactory } from '../../factories/user.factory'
 
 describe('users', () => {
   let sampleUser: Partial<UserType>
+  let samplePassword: string
   beforeAll(async () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
-    sampleUser = userFactory.build()
+    samplePassword = 'mysecret'
+    sampleUser = userFactory.build(
+      {},
+      { transient: { plainPassword: samplePassword } }
+    )
+    console.log('sampleUser.password?', sampleUser.password)
+
+    // Register a user
+    await request(app).post('/api/users').send(sampleUser)
   })
 
   afterAll(async () => {
     await mongoDB.disconnect()
   })
 
-  test.only('successful registration', async () => {
-    const response = await request(app).post('/api/users').send(sampleUser)
+  test.only('successful Login', async () => {
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({ email: sampleUser.email, password: samplePassword })
+
     expect(response.statusCode).toBe(201)
-    expect(response.body).toEqual({
-      _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
-      // _id: expect.any(String),
-      email: sampleUser.email,
-      isAdmin: sampleUser.IsAdmin,
-      name: sampleUser.name,
-      pic: sampleUser.pic,
-      token: expect.any(String),
-    })
+    expect(response.body).toEqual(1)
   })
 })

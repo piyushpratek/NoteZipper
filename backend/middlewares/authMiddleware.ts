@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import User from '../models/userModel'
+import User, { UserType } from '../models/userModel'
 import asyncHandler from 'express-async-handler'
-import type { RequestAuth, UserType } from '../types'
+import type { RequestAuth } from '../types'
 import { JWT_SECRET } from '../config'
 
 interface JwtPayload {
