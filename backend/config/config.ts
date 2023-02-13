@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'test') {
   envPath = '.env.test'
 }
 if (envPath === '') {
-  logger.error('Please use a either a valid value of NODE_ENV variable.')
+  logger.error('Please use a valid value of NODE_ENV variable.')
   throw new Error()
 }
 
