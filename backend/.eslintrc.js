@@ -3,6 +3,9 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
   },
   extends: 'standard-with-typescript',
   overrides: [
