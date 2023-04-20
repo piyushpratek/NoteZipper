@@ -1,8 +1,8 @@
 import express from 'express'
-import userRoutes from './routes/userRoutes'
-import noteRoutes from './routes/noteRoutes'
-import { errorHandler, notFound } from './middlewares/errorMiddleware'
+import userRoutes from '../routes/userRoutes'
 import path from 'path'
+import noteRoutes from '../routes/noteRoutes'
+import { errorHandler, notFound } from '../middlewares/errorMiddleware'
 
 const app = express()
 app.use(express.json())
