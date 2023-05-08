@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import request from 'supertest'
-import app from '../../../app'
+import app from '../../../src/app'
 import mongoDB from '../../../config/mongoDB'
 import { SIMPLE_MONGODB_ID_REGEX } from '../../../constants'
 import { UserType } from '../../../models/userModel'
