@@ -22,8 +22,7 @@ export const errorHandler: ErrorRequestHandler = (
   next
 ): void => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-  res.status(statusCode)
-  res.json({
+  res.status(statusCode).json({
     message: err.message,
     stack: NODE_ENV === 'production' ? null : err.stack,
   })
