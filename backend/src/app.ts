@@ -15,6 +15,8 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/notes', noteRoutes)
+app.use('/api/*', errorHandler)
+app.use('/api/*', notFound)
 
 if (process.env.USE_STATIC_BUILD === 'true') {
   const reactBuildPath = path.join('./react-static')
@@ -30,8 +32,5 @@ if (process.env.USE_STATIC_BUILD === 'true') {
     res.redirect('/api/health')
   })
 }
-
-app.use(notFound)
-app.use(errorHandler)
 
 export default app
