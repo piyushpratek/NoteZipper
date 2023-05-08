@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { register } from '../../actions/userActions';
 
+export const GUEST_CREADENTIALS = {
+  name: 'Guest 1',
+  email: 'guest1@guest.com',
+  password: '123456',
+};
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -33,6 +38,13 @@ const RegisterScreen = () => {
       navigate('/mynotes');
     }
   }, [userInfo]);
+
+  const handleGuestCredentials = () => {
+    setEmail(GUEST_CREADENTIALS.email);
+    setName(GUEST_CREADENTIALS.name);
+    setPassword(GUEST_CREADENTIALS.password);
+    setConfirmPassword(GUEST_CREADENTIALS.password);
+  };
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
@@ -134,8 +146,15 @@ const RegisterScreen = () => {
               />
             </Form.Group>
 
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' className='m-2' type='submit'>
               Submit
+            </Button>
+            <Button
+              variant='primary'
+              className='m-2'
+              onClick={handleGuestCredentials}
+            >
+              Use Guest Credentials
             </Button>
           </Form>
           <Row className='py-3'>

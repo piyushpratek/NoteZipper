@@ -8,10 +8,11 @@ import './LoginScreen.css';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { login } from '../../actions/userActions';
+import { GUEST_CREADENTIALS } from '../RegisterScreen/RegisterScreen';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('sahil11@gmail.com');
-  const [password, setPassword] = useState('Sahil');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,6 +30,12 @@ const LoginScreen = () => {
     e.preventDefault();
     dispatch(login(email, password) as any);
   };
+
+  const handleGuestCredentials = () => {
+    setEmail(GUEST_CREADENTIALS.email);
+    setPassword(GUEST_CREADENTIALS.password);
+  };
+
   return (
     <div>
       <MainScreen title='LOGIN'>
@@ -56,8 +63,15 @@ const LoginScreen = () => {
               />
             </Form.Group>
 
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' className='m-2' type='submit'>
               Submit
+            </Button>
+            <Button
+              variant='primary'
+              className='m-2'
+              onClick={handleGuestCredentials}
+            >
+              Use Guest Credentials
             </Button>
           </Form>
           <Row className='py-3'>
