@@ -16,7 +16,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/users', userRoutes)
 app.use('/api/notes', noteRoutes)
 
-if (process.env.NODE_ENV === 'production' && process.env.VITE !== 'false') {
+if (process.env.USE_STATIC_BUILD === 'true') {
   const reactBuildPath = path.join('./react-static')
   const staticMiddleware = express.static(reactBuildPath)
   app.use(staticMiddleware)
@@ -24,6 +24,11 @@ if (process.env.NODE_ENV === 'production' && process.env.VITE !== 'false') {
 
   const assetsPath = path.join('./react-static/assets')
   app.use('/assets', express.static(assetsPath))
+} else {
+  // Redirect to /api/health
+  app.use('*', (req, res) => {
+    res.redirect('/api/health')
+  })
 }
 
 app.use(notFound)
