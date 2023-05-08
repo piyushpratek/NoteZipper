@@ -7,8 +7,8 @@ import { errorHandler, notFound } from '../middlewares/errorMiddleware'
 const app = express()
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.json('API IS RUNNING..')
+app.get('/api/health', (req, res) => {
+  res.send('Api is Running')
 })
 
 app.use('/api/users', userRoutes)
