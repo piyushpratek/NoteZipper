@@ -3,9 +3,11 @@ import userRoutes from '../routes/userRoutes'
 import path from 'path'
 import noteRoutes from '../routes/noteRoutes'
 import { errorHandler, notFound } from '../middlewares/errorMiddleware'
+import cors from 'cors'
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.get('/api/health', (req, res) => {
   res.send('Api is Running')
