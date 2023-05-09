@@ -71,7 +71,7 @@ const RegisterScreen = () => {
       })
         .then((res: any) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
 
           setPic(data.url.toString());
         })
