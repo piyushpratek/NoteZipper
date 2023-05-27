@@ -15,6 +15,7 @@
   "author": "Piyush",
   "license": "ISC",
   "dependencies": {
+    "@typescript-eslint/parser": "^5.59.7",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
