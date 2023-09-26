@@ -9,7 +9,8 @@
     "start": "node ./dist/server.js",
     "start:dev-static": "cross-env NODE_ENV=development USE_STATIC_BUILD=true node ./dist/server.js",
     "start:prod-static": "cross-env NODE_ENV=production USE_STATIC_BUILD=true node ./dist/server.js",
-    "test": "jest --watchAll",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint . --max-warnings=0",
     "lint-fix": "eslint . --fix"
   },

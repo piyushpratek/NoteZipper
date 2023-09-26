@@ -14,9 +14,19 @@ describe('Server health checkup', () => {
     await mongoDB.disconnect()
   })
 
-  test('api should return expected message', async () => {
-    const response = await request(app).get('/')
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toBe('API IS RUNNING..')
+  describe('api should return expected message', () => {
+    test('status code', async () => {
+      const response = await request(app).get('/api/health')
+      const expected = 200
+      const recived = response.statusCode
+      expect(recived).toBe(expected)
+    })
+
+    test('response text', async () => {
+      const response = await request(app).get('/api/health')
+      const expected = 'Api is Running'
+      const recived = response.text
+      expect(recived).toBe(expected)
+    })
   })
 })
