@@ -17,17 +17,18 @@ describe('users', () => {
   })
 
   test('successful registration', async () => {
-    const user = userFactory.build()
+    const { name, email, password, pic, IsAdmin } = userFactory.build()
 
-    const response = await request(app).post('/api/users').send(user)
+    const response = await request(app).post('/api/users').send({ name, email, password, pic })
     expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({
       // _id: expect.any(String),
       _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
-      email: user.email,
-      isAdmin: user.IsAdmin,
-      name: user.name,
-      pic: user.pic,
+      email,
+      // TODO: Change `IsAdmin` field name to `isAdmin` in `userSchema`. Register API returns correct field name though i.e, `isAdmin`
+      isAdmin: IsAdmin,
+      name,
+      pic,
       token: expect.any(String),
     })
   })

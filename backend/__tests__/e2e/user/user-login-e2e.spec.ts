@@ -9,17 +9,16 @@ import { userFactory } from '../../factories/user.factory'
 
 describe('users', () => {
   let activeUser: UserDoc
-  let activeUserPlainPassword: string
+  const activeUserPlainPassword = 'mysecret'
   beforeAll(async () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
 
-    activeUserPlainPassword = 'mysecret'
-    const user = userFactory.build({ password: activeUserPlainPassword })
-
     // Note: User schema calls `hashPassword()` to hash password internaly to
     // save hash of the password instead of plain password
-    activeUser = await User.create(user)
+    activeUser = await User.create(
+      userFactory.build({ password: activeUserPlainPassword })
+    )
   })
 
   afterAll(async () => {
