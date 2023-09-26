@@ -11,6 +11,7 @@
     "start:prod-static": "cross-env NODE_ENV=production USE_STATIC_BUILD=true node ./dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:watchAll": "jest --watchAll",
     "lint": "eslint . --max-warnings=0",
     "lint-fix": "eslint . --fix"
   },

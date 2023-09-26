@@ -26,7 +26,7 @@ describe('users', () => {
     await mongoDB.disconnect()
   })
 
-  test.only('successful Login', async () => {
+  test('successful Login', async () => {
     const response = await request(app)
       .post('/api/users/login')
       .send({ email: sampleUser.email, password: samplePassword })
