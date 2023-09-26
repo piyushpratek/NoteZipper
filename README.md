@@ -34,3 +34,5 @@ Tutorial: [Click here]
 **NOTE:** You would need to build frontend with `npm run build` from frontend folder each time you change code in frontend folder.
 
 To run static build of react you can use `nr start:dev-static` and `start:prod-static`.
+
+Thanks.
