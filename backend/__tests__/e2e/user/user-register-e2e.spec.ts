@@ -3,16 +3,13 @@ import request from 'supertest'
 import app from '../../../src/app'
 import mongoDB from '../../../config/mongoDB'
 import { SIMPLE_MONGODB_ID_REGEX } from '../../../constants'
-import { UserType } from '../../../models/userModel'
 import { clearDatabase } from '../../../utils/mongo-helpers'
 import { userFactory } from '../../factories/user.factory'
 
 describe('users', () => {
-  let sampleUser: Partial<UserType>
   beforeAll(async () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
-    sampleUser = userFactory.build()
   })
 
   afterAll(async () => {
@@ -20,15 +17,17 @@ describe('users', () => {
   })
 
   test('successful registration', async () => {
-    const response = await request(app).post('/api/users').send(sampleUser)
+    const user = userFactory.build()
+
+    const response = await request(app).post('/api/users').send(user)
     expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({
       // _id: expect.any(String),
       _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
-      email: sampleUser.email,
-      isAdmin: sampleUser.IsAdmin,
-      name: sampleUser.name,
-      pic: sampleUser.pic,
+      email: user.email,
+      isAdmin: user.IsAdmin,
+      name: user.name,
+      pic: user.pic,
       token: expect.any(String),
     })
   })

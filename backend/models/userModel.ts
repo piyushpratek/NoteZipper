@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs'
 
 export interface UserType {
   _id: string
@@ -49,7 +49,8 @@ const userSchema = new mongoose.Schema<UserDoc>(
 )
 
 userSchema.methods.matchPassword = async function (enteredPassword: string) {
-  return await bcrypt.compare(enteredPassword, this.password as string)
+  const isMatched = await bcrypt.compare(enteredPassword.toString(), this.password.toString() as string)
+  return isMatched
 }
 
 export const hashPassword = (plainPassword: string): string => {

@@ -3,23 +3,23 @@ import request from 'supertest'
 import app from '../../../src/app'
 import mongoDB from '../../../config/mongoDB'
 import { SIMPLE_MONGODB_ID_REGEX } from '../../../constants'
-import { UserType } from '../../../models/userModel'
+import User, { UserDoc } from '../../../models/userModel'
 import { clearDatabase } from '../../../utils/mongo-helpers'
 import { userFactory } from '../../factories/user.factory'
 
 describe('users', () => {
-  let activeUser: Partial<UserType>
-  let plainPassword: string
+  let activeUser: UserDoc
+  let activeUserPlainPassword: string
   beforeAll(async () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
-    plainPassword = 'mysecret'
-    activeUser = userFactory.build()
 
-    // Register a user
-    await request(app)
-      .post('/api/users')
-      .send({ ...activeUser, password: plainPassword })
+    activeUserPlainPassword = 'mysecret'
+    const user = userFactory.build({ password: activeUserPlainPassword })
+
+    // Note: User schema calls `hashPassword()` to hash password internaly to
+    // save hash of the password instead of plain password
+    activeUser = await User.create(user)
   })
 
   afterAll(async () => {
@@ -30,7 +30,7 @@ describe('users', () => {
     // Login user
     const response = await request(app)
       .post('/api/users/login')
-      .send({ email: activeUser.email, password: plainPassword })
+      .send({ email: activeUser.email, password: activeUserPlainPassword })
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({

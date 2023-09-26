@@ -9,19 +9,14 @@ interface UserTransientParams {
 export const userFactory = Factory.define<
   Partial<UserType>,
   UserTransientParams
->(({ sequence, transientParams, afterBuild }) => {
-  afterBuild((user) => {
-    user.password = hashPassword(
-      transientParams.plainPassword ?? 'secret-password'
-    )
-    user.IsAdmin = transientParams.IsAdmin ?? false
-  })
-
+  >(({ sequence }) => {
   const Sequence = String(sequence)
 
   return {
     name: `Name ${Sequence}`,
     email: `user${Sequence}@sample.com`,
     pic: 'https://sample.com/factory.png',
+    password: `secret-password-${Sequence}`,
+    IsAdmin: false,
   }
 })

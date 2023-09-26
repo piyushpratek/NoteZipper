@@ -46,7 +46,13 @@ export const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email })
 
-  if (user != null && (await user.matchPassword(password))) {
+  if (!user) {
+    res.status(400)
+    throw new Error(`User with this email: ${email} does not exist.`)
+  }
+
+  const isPasswordCorrect = await user.matchPassword(password)
+  if (isPasswordCorrect) {
     res.json({
       _id: user._id,
       name: user.name,
@@ -57,7 +63,7 @@ export const authUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('Invalid Email or Password! ')
+    throw new Error('Invalid password.')
   }
 })
 export const updateUserProfile = asyncHandler(

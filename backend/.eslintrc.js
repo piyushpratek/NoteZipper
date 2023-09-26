@@ -44,6 +44,7 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
     '@typescript-eslint/require-await': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off', // Good rule
   },
   overrides: [],
 }
