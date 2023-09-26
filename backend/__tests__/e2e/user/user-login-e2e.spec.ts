@@ -8,18 +8,18 @@ import { clearDatabase } from '../../../utils/mongo-helpers'
 import { userFactory } from '../../factories/user.factory'
 
 describe('users', () => {
-  let sampleUser: Partial<UserType>
-  let samplePassword: string
+  let activeUser: Partial<UserType>
+  let plainPassword: string
   beforeAll(async () => {
     await mongoDB.connect()
     await clearDatabase(mongoose.connection)
-    samplePassword = 'mysecret'
-    sampleUser = userFactory.build()
+    plainPassword = 'mysecret'
+    activeUser = userFactory.build()
 
     // Register a user
     await request(app)
       .post('/api/users')
-      .send({ ...sampleUser, password: samplePassword })
+      .send({ ...activeUser, password: plainPassword })
   })
 
   afterAll(async () => {
@@ -27,17 +27,18 @@ describe('users', () => {
   })
 
   test('successful Login', async () => {
+    // Login user
     const response = await request(app)
       .post('/api/users/login')
-      .send({ email: sampleUser.email, password: samplePassword })
+      .send({ email: activeUser.email, password: plainPassword })
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
       _id: expect.stringMatching(SIMPLE_MONGODB_ID_REGEX),
-      email: sampleUser.email,
-      isAdmin: sampleUser.IsAdmin,
-      name: sampleUser.name,
-      pic: sampleUser.pic,
+      email: activeUser.email,
+      isAdmin: activeUser.IsAdmin,
+      name: activeUser.name,
+      pic: activeUser.pic,
       token: expect.any(String),
     })
   })
